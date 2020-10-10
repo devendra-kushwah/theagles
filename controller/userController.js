@@ -42,9 +42,9 @@ class UserController {
   async read(req, res) {
     try {
       const { email, mobile, password } = req.body;
-      const fields = (email && password) || (mobile && password);
-      if (!fields) {
-        const error = "required fields";
+      const requiredField = (email && password) || (mobile && password);
+      if (!requiredField) {
+        const error = "Required fields";
         return baseHelper.error(res, error);
       }
       const user = await User.findOne({ email: email });
@@ -63,7 +63,8 @@ class UserController {
         return baseHelper.error(res, error);
       }
     } catch (error) {
-      return baseHelper.error(res, error);
+      // return baseHelper.error(res, error);
+      return res.status(422).json({ error: error, message: "none" });
     }
   }
 }
