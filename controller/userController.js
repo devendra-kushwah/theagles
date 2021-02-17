@@ -13,17 +13,22 @@ class UserController {
   async create(req, res) {
     try {
       const { email, mobile, password } = req.body;
-      const requiredFields = email && mobile && password;
-      if (!requiredFields) {
+      const emptyFields = !email && !mobile && !password;
+      if (emptyFields) {
         res.status(422).json({ error: "all fields are required" });
       }
       // if existing user
-      const existingUser = await User.findOne(
-        { email: email } && { mobile: mobile }
-      ).lean();
-      if (existingUser) {
-        const error = "already exist";
-        return baseHelper.error(res, error);
+      const user = await User.findOne({
+        $or: [{ email: email }, { mobile: mobile }],
+      });
+      if (user) {
+        const errors = {};
+        if (user.email === email) {
+          errors.email = "Email already registered";
+        } else {
+          errors.mobile = "Number already registered";
+        }
+        return baseHelper.error(res, errors);
       }
       const hashed = await hashPassword(password);
       const data = new User({
@@ -47,7 +52,9 @@ class UserController {
         const error = "Required fields";
         return baseHelper.error(res, error);
       }
-      const user = await User.findOne({ email: email });
+      const user = await User.findOne({
+        $or: [{ email: email }, { mobile: mobile }],
+      });
       if (user) {
         const matched = await bcrypt.compare(password, user.password);
         if (matched) {
@@ -59,7 +66,7 @@ class UserController {
           return baseHelper.success(res, response);
         }
       } else {
-        const error = "invalid credentials";
+        const error = "invalid email or password";
         return baseHelper.error(res, error);
       }
     } catch (error) {
