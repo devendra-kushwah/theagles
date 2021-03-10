@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+
 async function hashPassword(password) {
   try {
     const saltRounds = 10;
