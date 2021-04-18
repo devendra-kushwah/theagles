@@ -15,11 +15,12 @@ app.use(express.json());
 app.use("/", router);
 
 // mongodb+srv://${userName}:${password}@cluster0-fik1z.mongodb.net/${DB_name}?retryWrites=true&w=majority
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
 mongoose
-  .connect(`mongodb://localhost:27017/new`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(`mongodb://localhost:27017/new`, options)
   .then(() => {
     app.listen(PORT, () => {
       console.log(`server is running on port http://localhost:${PORT}`);

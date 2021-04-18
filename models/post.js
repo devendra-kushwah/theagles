@@ -1,22 +1,24 @@
 import mongoose, { Schema } from "mongoose";
 
 const PostSchema = new Schema({
-  postTitle: String,
-  postMedia: String,
-  postStory: String,
-  author: {
-    id: {
-      type: Schema.Types.ObjectId,
-      ref: User,
-    },
+  title: String,
+  description: String,
+  subject: String,
+  media: {
+    photo: String,
+    video: String,
   },
-  data: {
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
+  date: {
     type: Date,
     default: Date.now,
   },
-  timestamps: { createdAt: "created_at" },
+  // timestamps: true,
 });
 
-const Post = mongoose.model("Post", PostSchema);
+const PostModel = mongoose.model("Post", PostSchema);
 
-export default Post;
+export default PostModel;

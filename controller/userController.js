@@ -13,8 +13,8 @@ class UserController {
   async create(req, res) {
     try {
       const { email, mobile, password } = req.body;
-      const emptyFields = !email && !mobile && !password;
-      if (emptyFields) {
+      const fieldsValue = email && mobile && password;
+      if (!fieldsValue) {
         res.status(422).json({ error: "all fields are required" });
       }
       // if existing user
@@ -22,11 +22,11 @@ class UserController {
         $or: [{ email: email }, { mobile: mobile }],
       });
       if (user) {
-        const errors = {};
+        let errors = "";
         if (user.email === email) {
-          errors.email = "Email already registered";
+          errors = "Email already registered";
         } else {
-          errors.mobile = "Number already registered";
+          errors = "Number already registered";
         }
         return baseHelper.error(res, errors);
       }
@@ -47,8 +47,8 @@ class UserController {
   async read(req, res) {
     try {
       const { email, mobile, password } = req.body;
-      const requiredField = (email && password) || (mobile && password);
-      if (!requiredField) {
+      const fieldsValue = (email && mobile) || password;
+      if (!fieldsValue) {
         const error = "Required fields";
         return baseHelper.error(res, error);
       }
@@ -60,18 +60,21 @@ class UserController {
         if (matched) {
           const token = jwt.sign({ _id: user._id }, SECRET_KEY);
           const response = {
-            message: "successfully logged in",
+            _id: user._id,
+            message: "Successfully logged in",
+            mobile: user.mobile,
+            email: user.email,
             token: token,
           };
           return baseHelper.success(res, response);
         }
       } else {
-        const error = "invalid email or password";
+        const error = "Invalid email or password";
         return baseHelper.error(res, error);
       }
     } catch (error) {
       // return baseHelper.error(res, error);
-      return res.status(422).json({ error: error, message: "none" });
+      return res.status(422).json({ error: error });
     }
   }
 }

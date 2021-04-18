@@ -1,4 +1,4 @@
-class PostService {
+class UserPosts {
   async create(data) {
     try {
       const response = data.save();
@@ -9,4 +9,4 @@ class PostService {
   }
 }
 
-export default new PostService();
+export default new UserPosts();

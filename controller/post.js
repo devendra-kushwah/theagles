@@ -1,24 +1,34 @@
-import Post from "../models/post";
+import PostModel from "../models/post";
+import UserPosts from "../services/post";
+import baseHelper from "../utils/status.js";
 
-import PostService from "../services/post";
-
-class TimeLinePost {
+class Post {
+  /**
+   * @desc  Create user story with media
+   * @param {*} req
+   * @param {*} res
+   * @return user post response by (auth users id)
+   */
   async create(req, res) {
     try {
-      const { postStory, postMedia } = req.body;
-      if (!postStory || !postMedia) {
-        return res.status(422).json({ "error : ": " Required fields" });
+      const { title, description, media, subject } = req.body;
+      if (!title || !description || !subject) {
+        const error = "Required fields";
+        return baseHelper.error(res, error);
       }
-      const user = await Post.find({ "author.id :": req.user.id });
-      if (!user) {
-        return res.status(422).json({ "error : ": "invalid data provided" });
-      }
-      const response = await PostService(user);
-      return res.status(200).json({ message: response });
+      const post = new PostModel({
+        title,
+        description,
+        media,
+        subject,
+        author: req.user,
+      });
+      const response = await UserPosts.create(post);
+      return baseHelper.success(res, response);
     } catch (error) {
       console.log("Error : ", error);
     }
   }
 }
 
-export default new TimeLinePost();
+export default new Post();

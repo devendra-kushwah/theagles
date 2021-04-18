@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import config from "../config";
-import baseHelper from "../baseHelper";
+import baseHelper from "../utils/status";
+import User from "../models/user";
 const { SECRET_KEY } = config;
 
 export default (req, res, next) => {
@@ -14,7 +15,12 @@ export default (req, res, next) => {
       const error = "Unauthorized";
       return baseHelper.error(res, error);
     }
-    req.user = user;
-    next();
+    const { _id } = user;
+    User.findById(_id)
+      .select(["email", "mobile"]) // get auth users  email and mobile only in response
+      .then((userData) => {
+        req.user = userData;
+        next();
+      });
   });
 };
