@@ -12,11 +12,10 @@ const PostSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  date: {
+  createdAt: {
     type: Date,
     default: Date.now,
   },
-  // timestamps: true,
 });
 
 const PostModel = mongoose.model("Post", PostSchema);

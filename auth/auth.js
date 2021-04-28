@@ -17,7 +17,7 @@ export default (req, res, next) => {
     }
     const { _id } = user;
     User.findById(_id)
-      .select(["email", "mobile"]) // get auth users  email and mobile only in response
+      .select(["email", "mobile"]) // get auth users  email and mobile  in response
       .then((userData) => {
         req.user = userData;
         next();
