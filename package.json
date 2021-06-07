@@ -1,10 +1,10 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "expense tracker",
+  "module": "server.js",
+  "description": "e_learing",
   "main": "server.js",
   "dependencies": {
-    "apollo-server": "^2.14.3",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -18,14 +18,16 @@
     "@babel/core": "^7.9.6",
     "@babel/node": "^7.8.7",
     "@babel/preset-env": "^7.9.6",
-    "concurrently": "^5.2.0",
     "nodemon": "^2.0.3"
   },
   "scripts": {
     "start": "node server",
-    "local": "nodemon --exec babel-node server",
-    "client": "npm start --prefix client",
-    "dev": "concurrently \" npm run server \" \" npm run client\" "
+    "local": "nodemon --exec babel-node server"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
   },
   "author": "Devendra",
   "license": "ISC"

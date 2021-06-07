@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
-import config from "../config";
-import baseHelper from "../utils/status";
-import User from "../models/user";
+import config from "../../config";
+import baseHelper from "../../utils/status";
+import User from "../../models/user";
+
 const { SECRET_KEY } = config;
 
 export default (req, res, next) => {
