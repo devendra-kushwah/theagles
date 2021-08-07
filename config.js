@@ -10,4 +10,5 @@ const config = {
   PORT,
   SECRET_KEY,
 };
+
 export default config;
