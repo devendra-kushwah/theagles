@@ -1,18 +1,21 @@
 import express from "express";
-import authUser from "./auth/auth";
+
+import { authUser } from "./middleware";
+import userController from "./modules/users/controllers/user";
+import post from "./modules/posts/controllers/post";
 
 const router = express.Router();
 
-import controller from "./controller/userController";
-import post from "./controller/post";
+router.post("/user/signup", userController.create);
+router.post("/user/signin", userController.read);
 
-// router.get("/login", controller.create)
-// router.post("/login", controller.read)
-// router.put("/login", controller.update)
+router.post("/user/post/create", authUser, post.create);
+router.get("/user/post", authUser, post.read);
+router.get("/users/all-posts", post.allPost);
 
-router.post("/signup", controller.create);
-router.post("/signin", controller.read);
+// router.put("user/post/update", authUser, post.update);
+// router.delete("user/post/delete", authUser, post.delete);
 
-router.post("/create-post", authUser, post.create);
+// router.get("user/profile", authUser, post.read);
 
 export default router;

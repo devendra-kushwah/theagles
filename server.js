@@ -20,7 +20,7 @@ const options = {
   useUnifiedTopology: true,
 };
 mongoose
-  .connect(`mongodb://localhost:27017/new`, options)
+  .connect(`mongodb://localhost:27017/tweedle`, options)
   .then(() => {
     app.listen(PORT, () => {
       console.log(`server is running on port http://localhost:${PORT}`);

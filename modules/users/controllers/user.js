@@ -1,13 +1,16 @@
 import jwt from "jsonwebtoken";
-import UserService from "../services/user";
-import User from "../models/user";
-import baseHelper from "../utils/status";
-import hashPassword from "./hashPassword";
 import bcrypt from "bcrypt";
 
-import config from "../config";
+import UserService from "../services/user";
+import User from "../models/user";
+import baseHelper from "../../../utils/status";
+import hashPassword from "../../../utils/hashPassword";
+
+
+import config from "../../../config";
 
 const { SECRET_KEY } = config;
+
 class UserController {
   // signup
   async create(req, res) {
