@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import config from "./config";
 import cors from "cors";
 
-const { PORT, userName, password, DB_name } = config;
+const { PORT, DB } = config;
 import router from "./routes";
 
 const app = express();
@@ -20,7 +20,7 @@ const options = {
   useUnifiedTopology: true,
 };
 mongoose
-  .connect(`mongodb://localhost:27017/tweedle`, options)
+  .connect(DB, options)
   .then(() => {
     app.listen(PORT, () => {
       console.log(`server is running on port http://localhost:${PORT}`);
