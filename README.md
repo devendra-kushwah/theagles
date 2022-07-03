@@ -1,3 +1,6 @@
+# Features
+### ES6 modern syntax 
+
 # MCS (model, controller, service)
 
 ## Scripts
