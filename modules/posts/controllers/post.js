@@ -66,6 +66,7 @@ class Post {
  */
 
   async update(req, res) {
+    const {id} = req.params;
     try {
     } catch (error) { }
   }

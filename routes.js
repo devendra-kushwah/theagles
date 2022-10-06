@@ -13,7 +13,7 @@ router.post("/user/post/create", authUser, post.create);
 router.get("/user/post", authUser, post.read);
 router.get("/users/all-posts", post.allPost);
 
-// router.put("user/post/update", authUser, post.update);
+router.put("user/edit/post:id", authUser, post.update);
 // router.delete("user/post/delete", authUser, post.delete);
 
 // router.get("user/profile", authUser, post.read);
